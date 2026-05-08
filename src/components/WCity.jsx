@@ -3,7 +3,6 @@ import {
   Container,
   Card,
   Spinner,
-  Alert,
   Row,
   Col,
   Table,
@@ -11,6 +10,7 @@ import {
 } from "react-bootstrap"
 import { ChevronLeft, ChevronRight } from "react-bootstrap-icons"
 import { useParams } from "react-router"
+import WNotFound from "./WNotFound"
 
 const WCity = () => {
   const { city } = useParams()
@@ -30,6 +30,16 @@ const WCity = () => {
     if (currentIndex - 8 >= 0) {
       setCurrentIndex(currentIndex - 8)
     }
+  }
+
+  const getDayLabel = () => {
+    const dayOffset = currentIndex / 8
+    if (dayOffset === 0) return "Today"
+    if (dayOffset === 1) return "Tomorrow"
+
+    const date = new Date()
+    date.setDate(date.getDate() + dayOffset)
+    return date.toLocaleDateString("en-EN", { weekday: "long" })
   }
 
   useEffect(() => {
@@ -81,12 +91,7 @@ const WCity = () => {
       </Container>
     )
 
-  if (error)
-    return (
-      <Container style={{ marginTop: "100px" }}>
-        <Alert variant="danger">{error}</Alert>
-      </Container>
-    )
+  if (error) return <WNotFound />
 
   return (
     <Container style={{ marginTop: "100px" }}>
@@ -137,6 +142,12 @@ const WCity = () => {
           >
             <ChevronLeft />
           </Button>
+          <p
+            className="fw-bold text-primary mx-2 align-middle text-center my-2"
+            style={{ width: "80px" }}
+          >
+            {getDayLabel()}
+          </p>
           <Button
             variant="outline-primary"
             className="me-2 d-flex justify-content-center align-items-center"

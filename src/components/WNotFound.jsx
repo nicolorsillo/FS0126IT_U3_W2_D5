@@ -21,7 +21,7 @@ const WNotFound = () => {
 
             <div>
               <Button
-                variant="info"
+                variant="primary"
                 onClick={() => {
                   navigate("/")
                 }}
